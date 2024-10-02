@@ -1,0 +1,57 @@
+{% load static %}
+<aside class="left-sidebar">
+    <div>
+      <div class="brand-logo d-flex align-items-center justify-content-between">
+        <a href="./index.html" class="text-nowrap logo-img">
+          <img src="{% static 'images/logos/dark-logo.svg' %}" width="180" alt="" />
+        </a>
+        <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+          <i class="ti ti-x fs-8"></i>
+        </div>
+      </div>
+      <nav class="sidebar-nav scroll-sidebar mt-3" data-simplebar="">
+        <ul id="sidebarnav">
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="{% url 'dashboard:dashboard'%}" aria-expanded="false">
+              <span>
+                <i class="ti ti-layout-dashboard"></i>
+              </span>
+              <span class="hide-menu">Dashboard</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="{% url 'dashboard:product_list'%}" aria-expanded="false">
+              <span>
+                <i class="ti ti-box"></i>
+              </span>
+              <span class="hide-menu">Products</span>
+            </a>
+          </li>
+          <!-- <li class="sidebar-item">
+            <a class="sidebar-link" href="{% url 'dashboard:blog_list'%}" aria-expanded="false">
+              <span>
+                <i class="ti fa-blogger"></i>
+              </span>
+              <span class="hide-menu">Blogs</span>
+            </a>
+          </li> -->
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="{% url 'dashboard:contact_list'%}" aria-expanded="false">
+              <span>
+                <i class="ti ti-microphone"></i>
+              </span>
+              <span class="hide-menu">Contact Enquiry</span>
+            </a>
+          </li>
+          <!-- <li class="sidebar-item">
+            <a class="sidebar-link" href="{% url 'dashboard:product_enquiry_list'%}" aria-expanded="false">
+              <span>
+                <i class="ti ti-microphone"></i>
+              </span>
+              <span class="hide-menu">Product Enquiry</span>
+            </a>
+          </li> -->
+        </ul>
+      </nav>
+    </div>
+  </aside>

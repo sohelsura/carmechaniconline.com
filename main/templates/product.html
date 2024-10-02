@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load custom_tags %}
+
+{% block content %}
+<section class="page_title ds s-pt-105 s-pb-50 s-pt-lg-115 s-pb-lg-60">
+    <div class="divider-3 d-none d-lg-block"></div>
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12">
+                <h1 class="bold text-center text-lg-left">Services</h1>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'main:home' %}">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        Services
+                    </li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+</div>
+{% for product in products %}
+    {% if forloop.counter|divisibleby:2 %}
+        <section class="ls ms s-pt-55 s-pb-3 s-pt-md-50 s-pb-md-45 s-py-lg-140 c-mb-40 c-mb-md-0 side-section text-center text-md-left">
+            <div class="divider-5"></div>
+            <div class="cover-image s-cover-left"></div><!-- half image background element -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="{% url 'main:product-detail' product.slug %}">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="service-content content-left-padding">
+                            <a href="{% url 'main:product-detail' product.slug %}">
+                                {% with product.name|split_first_word as name_parts %}
+                                    <h3 class="special-heading">{{ name_parts.0 }}<span class="text-gradient">{{ name_parts.1 }}</span></h3>
+                                {% endwith %}
+                            </a>
+                            <p>{{ product.short_description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% else %}
+        <section class="ls ms s-pt-0 s-pb-3 s-pt-md-50 s-pb-md-55 s-pt-lg-140 s-pb-lg-125 c-mb-40 c-mb-md-0 side-section text-center text-md-left">
+            <div class="divider-5"></div>
+            <div class="cover-image s-cover-right"></div><!-- half image background element -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 order-1 order-md-2">
+                        <a href="{% url 'main:product-detail' product.slug %}">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        </a>
+                    </div>
+                    <div class="col-md-6 order-2 order-md-1">
+                        <div class="service-content content-right-padding">
+                            <a href="{% url 'main:product-detail' product.slug %}">
+                                {% with product.name|split_first_word as name_parts %}
+                                    <h3 class="special-heading">{{ name_parts.0 }}<span class="text-gradient">{{ name_parts.1 }}</span></h3>
+                                {% endwith %}
+                            </a>
+                            <p>{{ product.short_description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+{% empty %}
+    <div class="row mt_120 xs_mt_70">
+        <div class="col-12">
+            <p>No products available at the moment.</p>
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}

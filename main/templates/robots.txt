@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /cmo/
+Sitemap: https://kishanplast.in/sitemap.xml

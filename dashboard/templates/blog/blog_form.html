@@ -1,0 +1,115 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'libs/summernote/summernote-bs4.min.css' %}" />
+<style>
+  .error {
+    color: red;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="card bg-light-info shadow-none position-relative overflow-hidden">
+  <div class="card-body px-4 py-3">
+    <div class="row align-items-center">
+      <div class="col-9">
+        <h4 class="fw-semibold mb-0">{% if blog %}Edit{% else %}Add{% endif %} Blog</h4>
+      </div>
+      <div class="col-3">
+        <a href="{% url 'dashboard:blog_list' %}" class="btn btn-secondary float-end">Back to List</a>
+      </div>
+    </div>
+  </div>
+</div>
+<section>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <form id="blogForm" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" class="form-control" id="title" name="title" value="{{ blog.title }}" required>
+            </div>
+            <div class="mb-3">
+              <label for="image" class="form-label">Image</label>
+              <input type="file" class="form-control" id="image" name="image">
+              {% if blog.image %}
+                <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="mt-2" style="max-width: 200px;">
+              {% endif %}
+            </div>
+            <div class="mb-3">
+              <label for="short_description" class="form-label">Short Description</label>
+              <textarea class="form-control" id="short_description" name="short_description" rows="3">{{ blog.short_description }}</textarea>
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea class="form-control" id="description" name="description">{{ blog.description }}</textarea>
+            </div>
+            <div class="mb-3">
+              <label for="meta_title" class="form-label">Meta Title</label>
+              <input type="text" class="form-control" id="meta_title" name="meta_title" value="{{ blog.meta_title }}">
+            </div>
+            <div class="mb-3">
+              <label for="meta_description" class="form-label">Meta Description</label>
+              <input type="text" class="form-control" id="meta_description" name="meta_description" value="{{ blog.meta_description }}">
+            </div>
+            <div class="mb-3">
+              <label for="meta_keywords" class="form-label">Meta Keywords</label>
+              <input type="text" class="form-control" id="meta_keywords" name="meta_keywords" value="{{ blog.meta_keywords }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'libs/jquery-validation/jquery.validate.min.js' %}"></script>
+<script src="{% static 'libs/summernote/summernote-bs4.min.js' %}"></script>
+<script>
+  $(document).ready(function() {
+    // Initialize Summernote
+    $('#description').summernote({
+      height: 200,
+      toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'underline', 'clear']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture']],
+        ['view', ['fullscreen', 'codeview', 'help']]
+      ]
+    });
+
+    // Initialize jQuery Validate
+    $('#blogForm').validate({
+      rules: {
+        title: {
+          required: true,
+          maxlength: 555
+        },
+        short_description: {
+          maxlength: 1000
+        },
+        meta_title: {
+          maxlength: 555
+        },
+        meta_description: {
+          maxlength: 555
+        },
+        meta_keywords: {
+          maxlength: 555
+        }
+      }
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,142 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block styles %}
+<link
+  rel="stylesheet"
+  href="{% static 'libs/Datatables/demos.adminmart.com_premium_bootstrap_modernize-bootstrap_package_dist_libs_datatables.net-bs5_css_dataTables.bootstrap5.min.css' %}"
+/>
+
+<link
+  rel="stylesheet"
+  href="{% static 'libs/SweetAlert2/sweetalert2.css' %}"
+/>
+
+<link rel="stylesheet" href="{% static 'libs/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'libs/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'libs/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
+
+{% endblock %}
+
+{% block content %}
+<div class="card bg-light-info shadow-none position-relative overflow-hidden">
+  <div class="card-body px-4 py-3">
+    <div class="row align-items-center">
+      <div class="col-9">
+        <h4 class="fw-semibold mb-0">Products</h4>
+      </div>
+      <div class="col-3">
+        <a href="{% url 'dashboard:product_add' %}" class="btn btn-primary float-end">Add Product</a>
+      </div>
+    </div>
+  </div>
+</div>
+<section>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <table id="productTable" class="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Image</th>
+                <!-- <th>Short Description</th> -->
+                <th>Sort Order</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for product in products %}
+              <tr>
+                <td>{{ product.name }}</td>
+                <td>
+                  {% if product.image %}
+                      <img src="{{ product.image.url }}" height="100px" alt="{{ product.name }}"/>
+                  {% else %}
+                      <span>No Image Available</span>
+                  {% endif %}
+              </td>
+                <!-- <td>{{ product.short_description|truncatechars:50 }}</td> -->
+                <td>{{ product.sort_order }}</td>
+                <td>
+                  <a href="{% url 'dashboard:product_edit' product.id %}" class="btn btn-sm btn-primary">Edit</a>
+                  <button class="btn btn-sm btn-danger delete-product" data-id="{{ product.id }}">Delete</button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{% static 'libs/SweetAlert2/sweetalert2.js' %}"></script>
+<script src="{% static 'libs/Datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'libs/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'libs/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'libs/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/pdfmake.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/vfs_fonts.js' %}"></script>
+<script src="{% static 'libs/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'libs/datatables-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'libs/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+
+
+<script>
+  $(document).ready(function() {
+    // Initialize DataTable
+    var table = $('#productTable').DataTable();
+
+    $('.delete-product').on('click', function() {
+      var productId = $(this).data('id');
+      var button = $(this);
+      
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: '/cmo/products/delete/' + productId + '/',
+            type: 'POST',
+            data: {
+              csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(response) {
+              Swal.fire(
+                'Deleted!',
+                'The product has been deleted.',
+                'success'
+              ).then(() => {
+                // Remove the row from the DataTable
+                table.row(button.parents('tr')).remove().draw();
+              });
+            },
+            error: function(xhr, status, error) {
+              Swal.fire(
+                'Error!',
+                'An error occurred while deleting the product.',
+                'error'
+              );
+            }
+          });
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}

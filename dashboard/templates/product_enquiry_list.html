@@ -1,0 +1,154 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block styles %}
+
+<link
+  rel="stylesheet"
+  href="{% static 'libs/Datatables/demos.adminmart.com_premium_bootstrap_modernize-bootstrap_package_dist_libs_datatables.net-bs5_css_dataTables.bootstrap5.min.css' %}"
+/>
+
+<link
+  rel="stylesheet"
+  href="{% static 'libs/SweetAlert2/sweetalert2.css' %}"
+/>
+
+<link rel="stylesheet" href="{% static 'libs/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'libs/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'libs/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
+
+<style>
+  .message-tooltip {
+    cursor: pointer;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="card bg-light-info shadow-none position-relative overflow-hidden">
+  <div class="card-body px-4 py-3">
+    <div class="row align-items-center">
+      <div class="col-12">
+        <h4 class="fw-semibold mb-0">Product Enquiries</h4>
+      </div>
+    </div>
+  </div>
+</div>
+<section>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <table id="enquiryTable" class="table table-striped">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>Message</th>
+                <th>Created At</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for enquiry in enquiries %}
+              <tr>
+                <td>{{ enquiry.product.name }}</td>
+                <td>{{ enquiry.name }}</td>
+                <td>{{ enquiry.email }}</td>
+                <td>{{ enquiry.contact }}</td>
+                <td>
+                  <span class="message-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ enquiry.message }}">
+                    {{ enquiry.message|truncatechars:30 }}
+                  </span>
+                </td>
+                <td>{{ enquiry.created_at|date:"Y-m-d H:i" }}</td>
+                <td>
+                  <button class="btn btn-sm btn-danger delete-enquiry" data-id="{{ enquiry.id }}">Delete</button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{% static 'libs/SweetAlert2/sweetalert2.js' %}"></script>
+<script src="{% static 'libs/Datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'libs/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'libs/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'libs/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/pdfmake.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/vfs_fonts.js' %}"></script>
+<script src="{% static 'libs/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'libs/datatables-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'libs/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+
+<script>
+  $(document).ready(function() {
+    // Initialize DataTable
+    var table = $('#enquiryTable').DataTable({
+      order: [[5, 'desc']] // Sort by created_at column descending
+    });
+
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+
+    // Delete Enquiry
+    $('.delete-enquiry').on('click', function() {
+      var enquiryId = $(this).data('id');
+      var button = $(this);
+      
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: '/cmo/product-enquiries/delete/' + enquiryId + '/',
+            type: 'POST',
+            data: {
+              csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(response) {
+              Swal.fire(
+                'Deleted!',
+                'The enquiry has been deleted.',
+                'success'
+              ).then(() => {
+                // Remove the row from the DataTable
+                table.row(button.parents('tr')).remove().draw();
+              });
+            },
+            error: function(xhr, status, error) {
+              Swal.fire(
+                'Error!',
+                'An error occurred while deleting the enquiry.',
+                'error'
+              );
+            }
+          });
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'layout/base.html' %} 
+{% load static %}  
+
+{% block content %}
+
+<div class="col-lg-12 d-flex align-items-stretch">
+    <div class="card w-100 bg-light-info overflow-hidden shadow-none">
+      <div class="card-body position-relative text-center">
+        <div class="d-flex align-items-center justify-content-between">
+          <h4 class="fw-semibold mb-0 text-center">Welcome to Car Mechanic Online</span>!</h2>
+          <!-- {% if user.is_superuser %}
+          <div class="d-flex">
+            <a href="{% url 'dashboard:backup_database' %}" class="btn btn-sm btn-primary" >Backup Database</a>
+          </div>
+        {% endif %} -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endblock %}

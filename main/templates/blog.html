@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+    <!--===============================
+        BLOG GRID START
+    ===============================-->
+    <section class="tf__blog_page mt_190 xs_mt_70 mb_100 xs_mb_70">
+        <div class="container">
+          <div class="row justify-content-between">
+            <div class="col-xl-4 col-sm-5 col-md-6">
+              <div class="section_heading">
+                <h5>OUR BLOG</h5>
+                <h2 class="banner_title">Latest Blogs</h2>
+              </div>
+            </div>
+            <div class="col-xl-5 col-sm-7 col-md-6">
+              <div class="tf__portfolio_page_text">
+                <p>
+                  {{ blog_description|default:"Explore our latest blog posts covering various topics and insights." }}
+                </p>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row mt_35">
+            {% for blog in blogs %}
+            <div class="col-lg-4 col-md-6">
+              <div class="single_blog {% if forloop.first %}first_blog{% elif forloop.last %}last_blog{% endif %}">
+                <div class="single_blog_text">
+                  <ul class="d-flex flex-wrap">
+                    <li>{{ blog.created_at|date:"F d, Y" }}</li>
+                  </ul>
+                  <a class='title' href='{% url "main:blog_details" blog.slug %}'>{{ blog.title }}</a>
+                </div>
+                <div class="single_blog_img">
+                  <a class='img d-block' data-cursor='<i class="fx-icon-long-next-arrow"></i>' href='{% url "main:blog_details" blog.slug %}'>
+                    <div data-animation="img-blur" data-delay="0">
+                      <img
+                        src="{{ blog.image.url }}"
+                        alt="{{ blog.title }}"
+                        class="img-fluid w-100"
+                      />
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+            {% empty %}
+            <div class="col-12 mt-5">
+              <p class="text-center">No blog posts available at the moment.</p>
+            </div>
+            {% endfor %}
+          </div>
+  
+          {% if is_paginated %}
+          <div class="tf__pagination mt_65">
+            <div class="row">
+              <div class="col-12">
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                        <i class="fas fa-chevron-left"></i>
+                      </a>
+                    </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                      {% if page_obj.number == num %}
+                        <li class="page-item"><a class="page-link active" href="#">{{ num }}</a></li>
+                      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                        <i class="fas fa-chevron-right"></i>
+                      </a>
+                    </li>
+                    {% endif %}
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </section>
+      <!--===============================
+          BLOG GRID END
+      ===============================-->
+  
+{% endblock %}

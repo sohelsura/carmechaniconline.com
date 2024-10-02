@@ -1,0 +1,54 @@
+<!-- product_detail.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block title %}{{ meta_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+{% block meta_keywords %}{{ meta_keywords }}{% endblock %}
+{% block og_title %}{{ meta_title }}{% endblock %}
+{% block og_description %}{{ meta_description }}{% endblock %}
+{% block content %}
+
+<section class="page_title ds s-pt-105 s-pb-50 s-pt-lg-115 s-pb-lg-60">
+    <div class="divider-3 d-none d-lg-block"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="bold text-center text-lg-left">{{ product.name }}</h1>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'main:home' %}">Home</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'main:services' %}">Services</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        {{ product.name }}
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ls s-pt-50 s-pb-20 s-pt-lg-100 s-pb-lg-90 s-pt-xl-150 s-pb-xl-140 c-gutter-60 c-mb-30 c-mb-lg-0 service-single">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-12">
+                <div>
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                </div>
+
+                {% with product.name|split_first_word as name_parts %}
+                    <h3 class="special-heading">{{ name_parts.0 }}<span class="text-gradient">{{ name_parts.1 }}</span></h3>
+                {% endwith %}
+
+                <p>{{ product.description|safe }}</p>
+
+            </div><!-- .col-* -->
+        </div>
+        <div class="divider-3"></div>
+    </div>
+</section>
+
+{% endblock %}

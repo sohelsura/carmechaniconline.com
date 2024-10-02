@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+<section class="page_title ds s-pt-105 s-pb-50 s-pt-lg-115 s-pb-lg-60">
+  <div class="divider-3 d-none d-lg-block"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="bold text-center text-lg-left">About Us</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'main:home' %}">Home</a>
+          </li>
+          <li class="breadcrumb-item active">
+            About Us
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ls s-py-60 s-pb-md-100 s-py-lg-150">
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="row align-items-center text-center text-lg-left c-gutter-0">
+        <div class="col-lg-6">
+          <img src="{% static 'images/07.jpg' %}" alt="Founder of CarMechanicOnline.com">
+          <div class="divider-40 d-block d-lg-none"></div>
+        </div>
+        <div class="left-content col-lg-6 text-center text-lg-left">
+          <div class="divider-30 d-none d-lg-block"></div>
+          <h4 class="mt-0">Furkan <span class="text-gradient">Patel</span></h4>
+          <p class="fs-20 color-dark">Founder of CarMechanicOnline.com</p>
+          <div class="divider-60 d-none d-xl-block"></div>
+          <p>
+            With over 20 years of experience in the automotive industry, I founded CarMechanicOnline.com with a simple yet powerful vision: to provide reliable, prompt, and professional roadside assistance to drivers in need, anytime, anywhere.
+          </p>
+          <p>
+            Our journey began in 2010 when I realized the growing need for a modernized, tech-driven approach to roadside assistance. By leveraging cutting-edge technology and a team of highly skilled professionals, we've transformed the way drivers receive help during emergencies.
+          </p>
+          <p>
+            At CarMechanicOnline.com, we're more than just a service provider – we're your trusted partner on the road. Our commitment to excellence, customer satisfaction, and continuous innovation drives us to set new standards in the industry every day.
+          </p>
+          <div class="divider-60 d-none d-xl-block"></div>
+          <p class="signature text-center with-border overflow-hidden">
+            <img src="{% static 'images/signature.png' %}" alt="Michael J. Rodriguez's signature">
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="divider-110 d-none d-lg-block"></div> -->
+</section>
+<!-- 
+<section class="ls s-py-60 s-py-lg-100">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h3 class="text-center">Our <span class="text-gradient">Mission</span></h3>
+      <div class="divider-50 d-none d-xl-block"></div>
+      <p class="text-center">
+        To provide swift, reliable, and professional roadside assistance, ensuring the safety and peace of mind of every driver on the road.
+      </p>
+    </div>
+  </div>
+  <div class="divider-60 d-none d-xl-block"></div>
+  <div class="row c-mb-50 c-mb-lg-0">
+    <div class="col-lg-4 text-center">
+      <div class="icon-box text-center">
+        <div class="icon-styled color-main2 fs-56">
+          <i class="ico-tow-truck"></i>
+        </div>
+        <h5>24/7 Availability</h5>
+        <p>
+          We're always here when you need us, day or night, ensuring you're never left stranded.
+        </p>
+      </div>
+    </div>
+    <div class="col-lg-4 text-center">
+      <div class="icon-box text-center">
+        <div class="icon-styled color-main2 fs-56">
+          <i class="ico-mechanic"></i>
+        </div>
+        <h5>Expert Team</h5>
+        <p>
+          Our skilled technicians are trained to handle a wide range of roadside emergencies efficiently.
+        </p>
+      </div>
+    </div>
+    <div class="col-lg-4 text-center">
+      <div class="icon-box text-center">
+        <div class="icon-styled color-main2 fs-56">
+          <i class="ico-car"></i>
+        </div>
+        <h5>Comprehensive Services</h5>
+        <p>
+          From towing to on-site repairs, we offer a full range of roadside assistance services.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+</section> -->
+{% endblock %}

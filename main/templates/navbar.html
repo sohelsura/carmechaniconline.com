@@ -1,0 +1,134 @@
+{% load static %}
+
+
+<div class="preloader">
+  <div class="preloader_image"></div>
+</div>
+
+<div class="header_absolute slide_absolute ds bs s-overlay">
+
+  <!--topline section visible only on small screens|-->
+  <section class="page_toplogo ds s-overlay s-pt-10 s-pb-5 s-py-lg-30">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-12">
+          <div class="d-lg-flex justify-content-lg-end align-items-lg-center">
+            <div class="mr-auto">
+              <div class="d-none d-lg-flex justify-content-center justify-content-lg-start">
+                <a href="{% url 'main:home' %}" class="logo">
+                  <img src="{% static 'images/logo.png' %}" alt="">
+                  <span class="logo-text fw-500">Car<span class="fw-200">Mechanic</span></span>
+                </a>
+              </div>
+            </div>
+            <!--
+      if you want to display toplogo info on smaller screens
+      than use following CSS classes below:
+      d-sm-flex justify-lg-content-end justify-content-sm-between align-items-center
+    -->
+            <div class="d-flex justify-lg-content-end align-items-center meta-icons">
+              <div class="media">
+                <div class="icon-styled color-main fs-20">
+                  <i class="ico-email"></i>
+                </div>
+                <div class="media-body">
+                  <h6>Mail Us</h6>
+                  <p class="fw-400">
+                    <a href="maito:" class="__cf_email__">contact@carmechaniconline.com</a>
+                  </p>
+                </div>
+              </div>
+              <div class="media d-none d-md-flex">
+                <div class="icon-styled color-main fs-20">
+                  <i class="ico-placeholder"></i>
+                </div>
+                <div class="media-body">
+                  <h6>Location</h6>
+                  <p class="fw-400">
+                    Mumbai - 400001
+                  </p>
+                </div>
+              </div>
+              <div class="media">
+                <div class="icon-styled color-main fs-20">
+                  <i class="ico-phone-call"></i>
+                </div>
+                <div class="media-body">
+                  <h6>Phone</h6>
+                  <p class="fw-400">
+                    <a href="tel:+919152111610"> +91 91521 11610</a>
+                  </p>
+                </div>
+              </div>
+              <div class="d-none d-xl-block">
+                <a href="{% url 'main:contact' %}" class="btn btn-small btn-outline-maincolor btn-appointment">Contact Us</a>
+              </div>
+            </div>
+          </div>
+          <!-- header toggler -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!--eof topline-->
+
+  <!-- header with single Bootstrap column only for navigation and includes. Used with topline and toplogo sections. Menu toggler must be in toplogo section -->
+  <header class="page_header s-py-10 s-py-lg-0 ds ms s-overlay nav-bordered justify-nav-center">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="d-lg-none col-11">
+          <a href="./" class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="">
+            <span class="logo-text fw-500">Car<span class="fw-200">Mechanic</span></span>
+          </a>
+        </div>
+        <div class="col-xl-12">
+
+          <div class="nav-wrap">
+            <!-- main nav start -->
+            <nav class="top-nav">
+              <ul class="nav sf-menu">
+                <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                  <a href="{% url 'main:home' %}">Home</a>
+                </li>
+                <li class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+                  <a href="{% url 'main:about' %}">About Us</a>
+                </li>
+                <li class="{% if request.resolver_match.url_name == 'product' or request.resolver_match.url_name == 'product-detail' %}active{% endif %}">
+                  <a href="{% url 'main:services' %}">Services</a>
+                  <ul>
+                    {% for product in products %}
+                      <li>
+                        <a href="{% url 'main:product-detail' product.slug %}">{{ product.name }}</a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </li>
+               
+               
+                <li class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                  <a href="{% url 'main:contact' %}">Contact</a>
+                </li>
+                <!-- eof contacts -->
+              </ul>
+
+
+            </nav>
+            <!-- eof main nav -->
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- header toggler -->
+
+    <span class="toggle_menu"><span></span></span>
+
+  </header>
+
+</div>

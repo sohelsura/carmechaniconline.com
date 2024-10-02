@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}{{ meta_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+{% block meta_keywords %}{{ meta_keywords }}{% endblock %}
+{% block og_title %}{{ meta_title }}{% endblock %}
+{% block og_description %}{{ meta_description }}{% endblock %}
+{% block content %}
+<!--===============================
+    BLOG DETAILS START
+===============================-->
+<section class="tf__blog_details mt_190 xs_mt_150 mb_100 xs_mb_70">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-10">
+                <div class="tf__blog_details_header">
+                    <h5>{{ blog.created_at|date:"d M Y" }}</h5>
+                    <h1 class="banner_title">
+                        {{ blog.title }}
+                    </h1>
+                    <ul>
+                        <li>
+                            <div class="img">
+                                <img src="{% static 'images/details_bloger.png' %}" alt="bloger" class="img-fluid w-100" />
+                            </div>
+                        </li>
+                        <li>
+                            <h4>Written by</h4>
+                            <p>{{ blog.author|default:"Anonymous" }}</p>
+                        </li>
+                        <li>
+                            <h4>Viewed</h4>
+                            <p>{{ blog.read_time|default:"3 min" }} read</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xl-12">
+                <div class="tf__blog_details_img">
+                    <div data-animation="img-blur" data-scroll="0">
+                        <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="img-fluid w-100" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-between">
+            <div class="col-xxl-7 col-lg-8">
+                <div class="tf__blog_details_text">
+                    {{ blog.description|safe }}
+                </div>
+                <!-- Comment form remains unchanged -->
+                <form class="tf__contact_form blog_contact_form">
+                    <!-- ... (comment form HTML) ... -->
+                </form>
+            </div>
+            <div class="col-xxl-4 col-lg-4">
+                <div class="tf__details_sidebar" id="sticky_sidebar">
+                    <div class="tf__sidebar_search">
+                        <form>
+                            <input type="text" placeholder="Search" />
+                            <button type="submit"><i class="far fa-search"></i></button>
+                        </form>
+                    </div>
+                    <div class="tf__sidebar_post mt_35">
+                        <h3>Recent Posts</h3>
+                        <ul>
+                            {% for recent_post in recent_posts %}
+                            <li>
+                                <div class="img">
+                                    <img src="{{ recent_post.image.url }}" alt="{{ recent_post.title }}" class="img-fluid w-100" />
+                                </div>
+                                <div class="text">
+                                    <a href="{% url 'main:blog_details' recent_post.slug %}">{{ recent_post.title }}</a>
+                                    <p>{{ recent_post.created_at|date:"F d, Y" }}</p>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="tf__sidebar_archive mt_65">
+                        <h3>Archive</h3>
+                        {% for date in archive_dates %}
+                        <p>{{ date|date:"F Y" }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--===============================
+    BLOG DETAILS END
+===============================-->
+{% endblock %}

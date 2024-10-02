@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, target-densitydpi=device-dpi"
+    />
+    <title>{{ meta.title }}</title>
+    <meta name="description" content="{{ meta.description }}">
+    <meta name="keywords" content="{{ meta.keywords }}">
+    <meta property="og:title" content="{{ meta.og_title }}">
+    <meta property="og:description" content="{{ meta.og_description }}">
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.ico' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" href="{% static 'libs/toastr/toastr.min.css' %}" />
+	<script src="{% static 'js/modernizr-2.6.2.min.js' %}"></script>
+    {% block styles %} {% endblock %}
+    
+<body>
+
+    <div id="canvas">
+        <div id="box_wrapper">
+            {% include 'navbar.html' %}
+
+            {% block content %}
+
+            {% endblock %}
+            
+            {% include 'footer.html' %}
+
+            <div class="modal fade" id="emergencyContactModal" tabindex="-1" role="dialog" aria-labelledby="emergencyContactModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                    <div class="modal-content border-0">
+                        <div class="modal-header bg-gradient text-white border-0">
+                            <h6 class="modal-title font-weight-bold" id="emergencyContactModalLabel">24/7 Roadside Assistance</h6>
+                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body py-3">
+                            <div class="text-center mb-3">
+                                <i class="fas fa-car-crash text-danger fa-2x mb-2"></i>
+                                <h4 class="font-weight-bold text-dark mb-2">Need Help Now?</h4>
+                                <p class="small text-muted">Our team is ready to assist you 24/7</p>
+                            </div>
+                            <div class="contact-number text-center py-2 mb-3">
+                                <a href="tel:+919152111610" class="btn btn-danger btn-block py-2">Call (+91) 91521 11610
+                                </a>
+                            </div>
+                            <div class="text-center text-muted">
+                                <small>Tap the button above to call us directly</small>
+                            </div>
+                        </div>
+                        <div class="modal-footer border-0 justify-content-center">
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">I'm Safe, Close This</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+
+    <script src="{% static 'libs/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'js/compressed.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <!-- <script src="{% static 'js/switcher.js' %}"></script> -->
+    <script src="{% static 'libs/toastr/toastr.min.js' %}"></script>
+    <script>
+        toastr.options = {
+        "closeButton": true,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-bottom-center",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+        }
+
+        $(document).ready(function() {
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags %}
+
+                    {% if message.tags == 'success' %}
+                        toastr.success("{{ message }}");
+                    {% elif message.tags == 'info' %}
+                        toastr.info("{{ message }}");
+                    {% elif message.tags == 'warning' %}
+                        toastr.warning("{{ message }}");
+                    {% elif message.tags == 'error' %}
+                        toastr.error("{{ message }}");
+                    {% endif %}
+
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+        // Check if the modal has been shown before
+            if (!localStorage.getItem('emergencyModalShown')) {
+                $('#emergencyContactModal').modal('show');
+                // Set a flag in localStorage so the modal won't show again in this session
+                localStorage.setItem('emergencyModalShown', 'true');
+            }
+        });
+    </script>
+
+    {% block scripts %} {% endblock %}
+    
+    
+</body>
+
+</html> 

@@ -1,0 +1,150 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block styles %}
+
+<link
+  rel="stylesheet"
+  href="{% static 'libs/Datatables/demos.adminmart.com_premium_bootstrap_modernize-bootstrap_package_dist_libs_datatables.net-bs5_css_dataTables.bootstrap5.min.css' %}"
+/>
+
+<link
+  rel="stylesheet"
+  href="{% static 'libs/SweetAlert2/sweetalert2.css' %}"
+/>
+
+<link rel="stylesheet" href="{% static 'libs/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'libs/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'libs/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
+
+<style>
+  .message-tooltip {
+    cursor: pointer;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="card bg-light-info shadow-none position-relative overflow-hidden">
+  <div class="card-body px-4 py-3">
+    <div class="row align-items-center">
+      <div class="col-12">
+        <h4 class="fw-semibold mb-0">Contacts</h4>
+      </div>
+    </div>
+  </div>
+</div>
+<section>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <table id="contactTable" class="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Subject</th>
+                <th>Message</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for contact in contacts %}
+              <tr>
+                <td>{{ contact.name }}</td>
+                <td>{{ contact.email }}</td>
+                <td>{{ contact.phone_number }}</td>
+                <td>{{ contact.subject }}</td>
+                <td>
+                  <span class="message-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ contact.message }}">
+                    {{ contact.message|truncatechars:30 }}
+                  </span>
+                </td>
+                <td>
+                  <button class="btn btn-sm btn-danger delete-contact" data-id="{{ contact.id }}">Delete</button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{% static 'libs/SweetAlert2/sweetalert2.js' %}"></script>
+<script src="{% static 'libs/Datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'libs/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'libs/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'libs/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/pdfmake.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/vfs_fonts.js' %}"></script>
+<script src="{% static 'libs/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'libs/datatables-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'libs/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+
+<script>
+  $(document).ready(function() {
+    // Initialize DataTable
+    var table = $('#contactTable').DataTable();
+
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+
+    // Delete Contact
+    $('.delete-contact').on('click', function() {
+      var contactId = $(this).data('id');
+      var button = $(this);
+      
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: '/cmo/contacts/delete/' + contactId + '/',
+            type: 'POST',
+            data: {
+              csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(response) {
+              Swal.fire(
+                'Deleted!',
+                'The contact has been deleted.',
+                'success'
+              ).then(() => {
+                // Remove the row from the DataTable
+                table.row(button.parents('tr')).remove().draw();
+              });
+            },
+            error: function(xhr, status, error) {
+              Swal.fire(
+                'Error!',
+                'An error occurred while deleting the contact.',
+                'error'
+              );
+            }
+          });
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}
