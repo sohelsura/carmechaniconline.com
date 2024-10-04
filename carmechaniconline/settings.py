@@ -125,13 +125,14 @@ USE_TZ = True
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'your mail here'
-EMAIL_HOST_PASSWORD = 'your pass here'
-EMAIL_PORT = 587
-DEFAULT_FROM_EMAIL = 'Car Mechanic Online <noreply@kishanplast.in>'
-COMPANY_EMAIL = 'info@kishanplast.in'
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
+EMAIL_HOST = 'mail.carmechaniconline.com'
+EMAIL_HOST_USER = 'info@carmechaniconline.com'
+EMAIL_HOST_PASSWORD = 'Btm($@%q423J'
+EMAIL_PORT = 465
+DEFAULT_FROM_EMAIL = 'Car Mechanic Online <info@carmechaniconline.com>'
+COMPANY_EMAIL = 'info@carmechaniconline.com'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/

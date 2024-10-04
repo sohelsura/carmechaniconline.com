@@ -19750,7 +19750,7 @@ a[class*="fa-"].fa-paper-plane:hover {
 }
 
 #emergencyContactModal .modal-title {
-	font-size: 18px;
+	font-size: 17px;
 }
 
 #emergencyContactModal .modal-body {
@@ -19768,6 +19768,10 @@ a[class*="fa-"].fa-paper-plane:hover {
 #emergencyContactModal .contact-number {
     background-color: #f8f9fa;
     border-radius: 8px;
+}
+
+#emergencyContactModal .contact-number a {
+    padding: 0px !important;
 }
 
 #emergencyContactModal .btn-danger {

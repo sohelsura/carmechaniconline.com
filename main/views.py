@@ -117,30 +117,30 @@ def contact(request):
         contact = Contact(name=name, email=email, phone_number=phone, subject=subject, message=message)
         contact.save()
 
-        # company_subject = f"New Contact Form Submission: {subject}"
-        # company_message = f"Name: {name}\nEmail: {email}\nPhone: {phone}\nSubject: {subject}\nMessage: {message}"
+        company_subject = f"New Contact Form Submission: {subject}"
+        company_message = f"Name: {name}\nEmail: {email}\nPhone: {phone}\nSubject: {subject}\nMessage: {message}"
         
-        # send_mail(
-        #     company_subject,
-        #     company_message,
-        #     settings.DEFAULT_FROM_EMAIL,
-        #     [settings.COMPANY_EMAIL],
-        #     fail_silently=False,
-        # )
+        send_mail(
+            company_subject,
+            company_message,
+            settings.DEFAULT_FROM_EMAIL,
+            [settings.COMPANY_EMAIL],
+            fail_silently=False,
+        )
 
-        # user_subject = "Thank you for contacting Car Mechanic Online"
-        # html_message = render_to_string('emails/autoresponse.html', {'name': name})
-        # plain_message = strip_tags(html_message)
+        user_subject = "Thank you for contacting Car Mechanic Online"
+        html_message = render_to_string('emails/autoresponse.html', {'name': name})
+        plain_message = strip_tags(html_message)
         
-        # email = EmailMultiAlternatives(
-        #     user_subject,
-        #     plain_message,
-        #     settings.DEFAULT_FROM_EMAIL,
-        #     [email]
-        # )
+        email = EmailMultiAlternatives(
+            user_subject,
+            plain_message,
+            settings.DEFAULT_FROM_EMAIL,
+            [email]
+        )
         
-        # email.attach_alternative(html_message, "text/html")
-        # email.send()
+        email.attach_alternative(html_message, "text/html")
+        email.send()
 
         messages.success(request, 'Your message was sent successfully.')
         return redirect('main:contact')
