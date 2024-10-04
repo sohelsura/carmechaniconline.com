@@ -14,7 +14,7 @@ from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from main.models import Blog, Contact, Product, ProductEnquiry
-import requests
+# import requests
 
 def login_view(request):
     if request.user.is_authenticated:
