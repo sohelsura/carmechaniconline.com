@@ -1,7 +1,7 @@
 asgiref==3.8.1
 certifi==2024.7.4
 charset-normalizer==3.3.2
-Django==5.0.6
+Django==4.2.16
 idna==3.7
 pillow==10.4.0
 # requests==2.32.3
