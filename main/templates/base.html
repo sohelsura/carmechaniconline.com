@@ -21,6 +21,15 @@
     <link rel="stylesheet" href="{% static 'css/main.css' %}" />
     <link rel="stylesheet" href="{% static 'libs/toastr/toastr.min.css' %}" />
 	<script src="{% static 'js/modernizr-2.6.2.min.js' %}"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-50PFZKBGH1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-50PFZKBGH1');
+    </script>
     {% block styles %} {% endblock %}
     
 <body>
