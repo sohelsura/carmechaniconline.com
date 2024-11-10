@@ -36,3 +36,18 @@ def meta_tags(request):
                 pass
 
     return {'meta': meta}
+
+# context_processors.py
+
+def canonical_url(request):
+    # Get the current path
+    path = request.path.rstrip('/')
+    
+    # Build the full canonical URL
+    protocol = 'https'  # Force HTTPS
+    domain = 'www.carmechaniconline.com'  # Your domain
+    canonical_url = f'{protocol}://{domain}{path}'
+    
+    return {
+        'canonical_url': canonical_url
+    }
